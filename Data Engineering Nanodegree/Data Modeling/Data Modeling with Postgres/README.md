@@ -74,10 +74,7 @@ pip install psycopg2
 
 ## execute files in the below order each time before pipeline.
 
-   1. create_tables.py
-      ```python
-         $ python3 create_tables.py
-   2. etl.ipynb/et.py
-      ```python
-         $ python3 etl.py
+   1. first open terminal
+   2. python3 create_tables.py      
+   3. python3 etl.py
    3. test.ipynb
