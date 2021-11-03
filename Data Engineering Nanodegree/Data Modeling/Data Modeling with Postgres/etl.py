@@ -6,6 +6,17 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    "Function : "
+    """
+    Description: This function is responsible for loading all song files to process songs and artist dataframe.
+
+    Arguments:
+        cur: the cursor object.
+        filepath: log data or song data file path.
+
+    Returns:
+        None
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -14,31 +25,43 @@ def process_song_file(cur, filepath):
     cur.execute(song_table_insert, song_data)
     
     # insert artist record
-    artist_data = df[['artist_id','name','location','latitude','longitude']].values[0].tolist()
+    artist_data=df[["artist_id","artist_name","artist_location","artist_latitude","artist_longitude"]].values[0].tolist()
+
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
+    """
+    Description: This function is responsible for loading all log files to extract details 
+    and insert into user, time and songplays table.
+
+    Arguments:
+        cur: the cursor object.
+        filepath: log data or song data file path.
+
+    Returns:
+        None
+    """
     # open log file
-    df = 
+    df = pd.read_json(filepath,lines=True)
 
     # filter by NextSong action
-    df = 
+    df = df[df['page'] == 'NextSong']
 
     # convert timestamp column to datetime
-    t = 
+    t = pd.to_datetime(df['ts'], unit='ms') 
     
     # insert time data records
-    time_data = 
-    column_labels = 
-    time_df = 
+    time_data = (t, t.dt.weekday_name, t.dt.year, t.dt.month, t.dt.hour, t.dt.day, t.dt.week)
+    column_labels = ["start_time","weekday","year","month","hour","day","week"] 
+    time_df = pd.DataFrame(dict(zip(column_labels, time_data))) 
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
-        conn.commit()
+        #conn.commit()
     # load user table
-    user_df = 
-
+    user_df = df[['userId',"firstName","lastName","gender","level"]]
+    user_df.rename(columns={'userId':"user_id","firstName":"first_name","lastName":"last_name"},inplace=True)
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
@@ -56,11 +79,25 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = 
+        songplay_data = (row.ts, row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Description: This function is responsible for listing the files in a directory,
+    and then executing the ingest process for each file according to the function
+    that performs the transformation to save it to the database.
+
+    Arguments:
+        cur: the cursor object.
+        conn: connection to the database.
+        filepath: log data or song data file path.
+        func: function that transforms the data and inserts it into the database.
+
+    Returns:
+        None
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
