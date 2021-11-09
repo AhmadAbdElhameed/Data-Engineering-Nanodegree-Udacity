@@ -142,20 +142,19 @@ staging_songs_copy = ("""copy staging_songs from '{}'
 
 songplay_table_insert = ("""
         INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
-        SELECT DISTINCT
-        TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as start_time,
-        e.user_id,
-        e.level,
-        s.song_id,
-        s.artist_id,
-        e.session_id,
-        e.location,
-        e.user_agent
-        FROM staging_events_copy e ,staging_songs_copy s
-        WHERE e.page = 'NextSong'
-        AND e.song_name = s.title
-        AND user_id NOT IN (SELECT DISTINCT s.user_id FROM songplays s WHERE s.user_id = user_id
-                       AND s.start_time = start_time AND s.session_id = session_id )
+SELECT DISTINCT
+TIMESTAMP 'epoch' + (se.ts / 1000) * INTERVAL '1 second' as start_time,
+se.user_id,
+se.level,
+ss.song_id,
+ss.artist_id,
+se.session_id,
+se.location,
+se.user_agent
+FROM staging_songs ss
+INNER JOIN staging_events se
+ON (ss.title = se.song_name AND se.artist = ss.artist_name)
+AND se.page = 'NextSong';
  """)
 
 
@@ -197,11 +196,10 @@ artist_table_insert = (""" INSERT INTO artists(artist_id,name,location,latitude,
         WHERE artist_id NOT IN (SELECT DISTINCT artist_id FROM artists)
 """)
         
-        
+      
 time_table_insert = ("""INSERT INTO time(start_time,weekday,year,month,hour,day,week)
 
-        SELECT DISTINCT
-        start_time,
+        SELECT DISTINCT (start_time)    AS start_time ,
         EXTRACT(weekday FROM start_time) As weekday,
         EXTRACT(year FROM start_time) As year,
         EXTRACT(month FROM start_time) As month,
@@ -210,6 +208,8 @@ time_table_insert = ("""INSERT INTO time(start_time,weekday,year,month,hour,day,
         EXTRACT(week FROM start_time) As week
         FROM (SELECT DISTINCT TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' AS start_time FROM staging_events s)
  """)
+
+
 
 # QUERY LISTS
 
@@ -222,3 +222,6 @@ insert_table_queries = [songplay_table_insert, user_table_insert, song_table_ins
 ## https://knowledge.udacity.com/questions/144884
 ## https://knowledge.udacity.com/questions/214736
 ## https://knowledge.udacity.com/questions/141440
+## https://knowledge.udacity.com/questions/738321
+## https://knowledge.udacity.com/questions/738321
+## https://knowledge.udacity.com/questions/738321
