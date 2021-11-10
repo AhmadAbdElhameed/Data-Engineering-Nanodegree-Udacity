@@ -59,7 +59,7 @@ songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays
     (
         songplay_id INT IDENTITY(0,1) PRIMARY KEY NOT NULL,
-        start_time BIGINT NOT NULL,
+        start_time TIMESTAMP NOT NULL,
         user_id int NOT NULL,
         level varchar NOT NULL,
         song_id varchar,
@@ -167,7 +167,7 @@ user_table_insert = ("""
         last_name,
         gender,
         level
-        FROM staging_events_copy e
+        FROM staging_events e
         WHERE e.page = 'NextSong'
  """)
 
@@ -189,9 +189,9 @@ artist_table_insert = (""" INSERT INTO artists(artist_id,name,location,latitude,
         SELECT DISTINCT
         artist_id,
         artist_name,
-        location,
-        latitude,
-        longitude
+        artist_location,
+        artist_latitude,
+        artist_longitude
         FROM staging_songs s
         WHERE artist_id NOT IN (SELECT DISTINCT artist_id FROM artists)
 """)
@@ -218,10 +218,14 @@ drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, songp
 copy_table_queries = [staging_events_copy, staging_songs_copy]
 insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
 
+
+## References 
 ## https://knowledge.udacity.com/questions/47005
 ## https://knowledge.udacity.com/questions/144884
 ## https://knowledge.udacity.com/questions/214736
 ## https://knowledge.udacity.com/questions/141440
 ## https://knowledge.udacity.com/questions/738321
-## https://knowledge.udacity.com/questions/738321
+## https://knowledge.udacity.com/questions/617086
+## https://knowledge.udacity.com/questions/468961
+## https://knowledge.udacity.com/questions/738524
 ## https://knowledge.udacity.com/questions/738321
