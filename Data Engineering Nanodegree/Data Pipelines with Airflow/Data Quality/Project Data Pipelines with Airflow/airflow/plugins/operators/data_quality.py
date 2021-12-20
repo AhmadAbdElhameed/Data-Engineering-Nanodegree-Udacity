@@ -9,12 +9,12 @@ class DataQualityOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self,
+                 dq_checks=[],
                  redshift_conn_id="",
-                 table="",
                  *args, **kwargs):
 
         super(DataQualityOperator, self).__init__(*args, **kwargs)
-        self.table = table
+        self.dq_checks = dq_checks
         self.redshift_conn_id = redshift_conn_id
 
     def execute(self, context):
