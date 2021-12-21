@@ -24,10 +24,6 @@ from helpers import SqlQueries
 # 10. Click save
 # 11. Run the DAG
 
-
-
-
-
 default_args = {
     'owner': 'udacity',
     'start_date': datetime(2019, 1, 12),
@@ -120,9 +116,19 @@ load_time_dimension_table = LoadDimensionOperator(
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
     dag=dag,
-    dq_checks=[{ 'check_sql': 'SELECT COUNT(*) FROM public.songs WHERE title IS NULL', 'expected_result': 0 }],
+    dq_checks=[
+        { 'check_table': 'SELECT COUNT(*) FROM public.songplays WHERE userid IS NULL', 'expected_result': 0 }, 
+        { 'check_table': 'SELECT COUNT(DISTINCT "level") FROM public.songplays', 'expected_result': 2 },
+        { 'check_table': 'SELECT COUNT(*) FROM public.artists WHERE name IS NULL', 'expected_result': 0 },
+        { 'check_table': 'SELECT COUNT(*) FROM public.songs WHERE title IS NULL', 'expected_result': 0 },
+        { 'check_table': 'SELECT COUNT(*) FROM public.users WHERE first_name IS NULL', 'expected_result': 0 },
+        { 'check_table': 'SELECT COUNT(*) FROM public."time" WHERE weekday IS NULL', 'expected_result': 0 },
+        { 'check_table': 'SELECT COUNT(*) FROM public.songplays sp LEFT OUTER JOIN public.users u ON u.userid = sp.userid WHERE u.userid IS NULL', \
+         'expected_result': 0 }
+    ],
     redshift_conn_id="redshift"
 )
+
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
@@ -131,26 +137,39 @@ end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 ### Dependencies :
 ## Create Tables Stage
 create_tables_task >> start_operator
+
 ## First Stage
 start_operator >> stage_events_to_redshift
 start_operator >> stage_songs_to_redshift
+
 ## Second Stage
 stage_events_to_redshift >> load_songplays_table
 stage_songs_to_redshift >> load_songplays_table
+
 ## Third Stage
 load_songplays_table >> load_user_dimension_table
 load_songplays_table >> load_song_dimension_table
 load_songplays_table >> load_artist_dimension_table
 load_songplays_table >> load_time_dimension_table
+
 ## Fourth Stage
 load_user_dimension_table >> run_quality_checks
 load_song_dimension_table >> run_quality_checks
 load_artist_dimension_table >> run_quality_checks
 load_time_dimension_table >> run_quality_checks 
+
 ## Fifth Stage
 run_quality_checks >> end_operator
 
 
-### ref
+### References
 ### https://knowledge.udacity.com/questions/116082
+### https://knowledge.udacity.com/questions/329453
+### https://knowledge.udacity.com/questions/706594
+### https://knowledge.udacity.com/questions/766720
+### https://knowledge.udacity.com/questions/765389
+### https://knowledge.udacity.com/questions/557300
+### https://knowledge.udacity.com/questions/329453
+### https://knowledge.udacity.com/questions/298859
+
 

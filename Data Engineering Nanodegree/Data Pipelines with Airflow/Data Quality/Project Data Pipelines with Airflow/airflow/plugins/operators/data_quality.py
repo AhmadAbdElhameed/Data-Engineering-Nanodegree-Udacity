@@ -2,9 +2,7 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-
 class DataQualityOperator(BaseOperator):
-
     ui_color = '#89DA59'
 
     @apply_defaults
@@ -18,11 +16,31 @@ class DataQualityOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
 
     def execute(self, context):
+        if len(self.dq_checks) <= 0:
+            self.log.info("No data quality checks provided")
+            return
+        
         redshift_hook = PostgresHook(self.redshift_conn_id)
-        records = redshift_hook.get_records(f"SELECT COUNT(*) FROM {self.table};")
-        if len(records) < 1 or len(records[0]) < 1:
-            raise ValueError(f"Data quality check failed. {self.table} returned no results")
-        num_records = records[0][0]
-        if num_records < 1:
-            raise ValueError(f"Data quality check failed. {self.table} contained 0 rows")
-        self.log.info(f"Data quality on table {self.table} check passed with {records[0][0]} records")
+        error_count = 0
+        failing_tests = []
+        
+        for check in self.dq_checks:
+            sql = check.get('check_table')
+            exp_result = check.get('expected_result')
+
+            try:
+                self.log.info(f"Running query: {sql}")
+                records = redshift_hook.get_records(sql)[0]
+            except Exception as e:
+                self.log.info(f"Query failed with exception: {e}")
+
+            if exp_result != records[0]:
+                error_count += 1
+                failing_tests.append(sql)
+
+        if error_count > 0:
+            self.log.info('Tests failed')
+            self.log.info(failing_tests)
+            raise ValueError('Data quality check failed')
+        else:
+            self.log.info("All data quality checks passed")

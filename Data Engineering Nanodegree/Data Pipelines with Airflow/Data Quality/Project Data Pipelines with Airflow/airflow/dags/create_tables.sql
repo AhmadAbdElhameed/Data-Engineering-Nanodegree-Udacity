@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS public."time" (
 
 CREATE TABLE IF NOT EXISTS public.artists (
 	artistid varchar(256) NOT NULL,
-	name varchar(256),
-	location varchar(256),
-	lattitude numeric(18,0),
-	longitude numeric(18,0)
+	name varchar(1024),
+	location varchar(1024),
+	lattitude numeric(30,0),
+	longitude numeric(30,0)
 );
