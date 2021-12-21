@@ -9,18 +9,18 @@ Tables must be created in Redshift before executing the DAG workflow. The create
 **`create_tables.sql`**
 
 #### Create connection with AWS
-# 1. Open Admin->Connections
-# 2. Click "Create"
-# 3. Set "Conn Id" to "aws_credentials", "Conn Type" to "Amazon Web Services"
-# 4. Set "Login" to your aws_access_key_id and "Password" to your aws_secret_key
-# 5. Press (Save and Create another)
-# 6.Conn Id: Enter redshift.
-# 7.Conn Type: Enter Postgres.
-# 8.Host: Enter the endpoint of your Redshift cluster, excluding the port at the end. You can find this by selecting your cluster in the Clusters page of the Amazon Redshift console. See where this is located in the screenshot below. IMPORTANT: Make sure to NOT include the port at the end of the Redshift endpoint string.
-# 9.Schema: Enter dev. This is the Redshift database you want to connect to.
-# 10.Login: Enter awsuser.
-# 11.Password: Enter the password you created when launching your Redshift cluster.
-# 12.Port: Enter 5439.
+##### 1. Open Admin->Connections
+##### 2. Click "Create"
+##### 3. Set "Conn Id" to "aws_credentials", "Conn Type" to "Amazon Web Services"
+##### 4. Set "Login" to your aws_access_key_id and "Password" to your aws_secret_key
+##### 5. Press (Save and Create another)
+##### 6.Conn Id: Enter redshift.
+##### 7.Conn Type: Enter Postgres.
+##### 8.Host: Enter the endpoint of your Redshift cluster, excluding the port at the end. You can find this by selecting your cluster in the Clusters page of the Amazon Redshift console. See where this is located in the screenshot below. IMPORTANT: Make sure to NOT include the port at the end of the Redshift endpoint string.
+##### 9.Schema: Enter dev. This is the Redshift database you want to connect to.
+##### 10.Login: Enter awsuser.
+##### 11.Password: Enter the password you created when launching your Redshift cluster.
+##### 12.Port: Enter 5439.
 
 ## Data Sources
 
