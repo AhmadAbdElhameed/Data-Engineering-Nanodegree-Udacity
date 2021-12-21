@@ -47,4 +47,6 @@ In order to ensure the tables were properly loaded, a data quality checking is p
 * [Python 3.6.2](https://www.python.org/downloads/release/python-363/) - Used to code DAG's and its dependecies
 * [Apache Airflow 1.10.2](https://airflow.apache.org/) - Workflows platform
 
+## Final Dag
 
+<img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/done.PNG>
