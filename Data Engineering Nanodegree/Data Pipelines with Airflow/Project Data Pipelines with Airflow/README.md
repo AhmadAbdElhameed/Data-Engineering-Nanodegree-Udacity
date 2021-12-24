@@ -22,6 +22,18 @@ Tables must be created in Redshift before executing the DAG workflow. The create
 ##### 11.Password: Enter the password you created when launching your Redshift cluster.
 ##### 12.Port: Enter 5439.
 
+
+## Project Workflow
+
+* 1- Create Redshift Cluster
+* 2- Create tables with query editor in Redshift 
+*  <img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/airflow05.PNG>
+*  <img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/airflow04.PNG>
+* <img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/airflow02.PNG>
+* <img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/airflow03.PNG>
+
+* 3- Run the Dag
+
 ## Data Sources
 
 Data resides in two directories that contain files in JSON format:
@@ -49,4 +61,4 @@ In order to ensure the tables were properly loaded, a data quality checking is p
 
 ## Final Dag
 
-<img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/done.PNG>
+<img src=https://github.com/AhmadAbdElhameed/Data-Engineering-Nanodegree-Udacity/blob/master/Data%20Engineering%20Nanodegree/Data%20Pipelines%20with%20Airflow/Project%20Data%20Pipelines%20with%20Airflow/finished.PNG>
