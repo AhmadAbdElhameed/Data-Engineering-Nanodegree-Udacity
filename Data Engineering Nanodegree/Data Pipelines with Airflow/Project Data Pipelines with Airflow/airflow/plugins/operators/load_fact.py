@@ -26,6 +26,7 @@ class LoadFactOperator(BaseOperator):
         self.sql_source = sql_source
 
     def execute(self, context):
+        self.log.info(f"Starting Loading Fact tables")
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
 
         self.log.info("Truncating Redshift table")
@@ -37,3 +38,4 @@ class LoadFactOperator(BaseOperator):
         )
         self.log.info(f"Executing {formatted_sql} ...")
         redshift.run(formatted_sql)
+        self.log.info(f"Loading Fact tables finished ")
