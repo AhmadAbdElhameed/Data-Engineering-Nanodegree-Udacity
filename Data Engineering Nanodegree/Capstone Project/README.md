@@ -1,4 +1,4 @@
-# Study of Immigration Data in the United States
+# Analysis of Immigration to the United States
 ### Data Engineering Capstone Project
 
 #### Project Summary
