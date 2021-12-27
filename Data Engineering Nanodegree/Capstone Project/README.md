@@ -3,18 +3,12 @@
 
 #### Project Summary
 
-In this project, we will be looking at the immigration data for the united states. More specifically, we're interested in looking at the following phenomena:
-* the effects of temperature on the volume of travellers, 
-* the seasonality of travel 
-* the connection between the volume of travel and the number of entry ports (ie airports) 
-* the connection between the volume of travel and the demographics of various cities
+This project aims to be able to answers questions on US immigration such as what are the most popular cities for immigration, what is the gender distribution of the immigrants, what is the visa type distribution of the immigrants, what is the average age per immigrant and what is the average temperature per month per city. We extract data from 3 different sources, the I94 immigration dataset of 2016, city temperature data from Kaggle and US city demographic data from OpenSoft. We design 4 dimension tables: Cities, immigrants, monthly average city temperature and time, and 1 fact table: Immigration. We use Spark for ETL jobs and store the results in parquet for downstream analysis.
 
 To accomplish this study, we will be using the following datasets:
 
 * **I94 Immigration Data**: This data comes from the US National Tourism and Trade Office and includes the contents of the i94 form on entry to the united states. A data dictionary is included in the workspace.
-    * _countries.csv_ : table containing country codes used in the dataset, extracted from the data dictionary
-    * _i94portCodes.csv_: table containing city codes used in the dataset, extracted from the data dictionary
-  The dataset can be found [here.](https://travel.trade.gov/research/reports/i94/historical/2016.html)
+The dataset can be found [here.]https://www.trade.gov/national-travel-and-tourism-office
 
 * **World Temperature Data**: This dataset comes from Kaggle and includes the temperatures of various cities in the world fomr 1743 to 2013.
   The dataset can be found [here.](https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data)
@@ -23,20 +17,10 @@ To accomplish this study, we will be using the following datasets:
 * **Airport Code Table**: This is a simple table of airport codes and corresponding cities.
   The dataset can be found [here.](https://datahub.io/core/airport-codes#data)
 
-In order to accomplish this, we will aggregate our data as follows:
-* aggregate based on time (year, month, day, etc...) 
-* aggregate data by cities and airports
-* look at the impact of temperatures on the in and ouflux of travelers
-* the impact on regional demographics
-
 The project follows the follow steps:
 * Step 1: Scope the Project and Gather Data
 * Step 2: Explore and Assess the Data
 * Step 3: Define the Data Model
 * Step 4: Run ETL to Model the Data
 * Step 5: Complete Project Write Up
-
-#### Files provided:
-
-All the project details and analysis will be in the project notebook.
 
